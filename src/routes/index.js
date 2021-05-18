@@ -3,7 +3,6 @@ const router = express.Router();
 const { getBlogPost, createBlogPost, updateBlogPost, deleteBlogPost } = require('./blog');
 const { createComment, createReply, getComment, updateComment, deleteComment  } = require('./comment');
 
-
 router
   .get('/', (req, res, next) => {
     res.json({message: "Application Healthy!", status: 200 })
@@ -25,4 +24,6 @@ router
   .put('/api/comment/:id', updateComment)
   .delete('/api/comment/:id', deleteComment);
 
+// TODO: Add routes for:
+// getting all posts, getting all comments, getting replies for a comment
 module.exports = router;

@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
 const app = express();
+const { authentication } = require('./authentication');
 
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -13,6 +15,7 @@ app.set('env', NODE_ENV);
 app.use(logger('tiny'));
 app.use(bodyParser.json());
 
+app.use(authentication);
 app.use('/', require(path.join(__dirname, 'routes')));
 
 app.use((req, res, next) => {
