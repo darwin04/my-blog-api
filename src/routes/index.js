@@ -5,6 +5,14 @@ const { createComment, createReply, getComment, updateComment, deleteComment  } 
 
 
 router
+  .get('/', (req, res, next) => {
+    res.json({message: "Application Healthy!", status: 200 })
+  })
+  .get('/api/health', (req, res, next) => {
+    res.json({message: "Application Healthy!", status: 200 });
+  });
+
+router
   .post('/api/blog', createBlogPost)
   .get('/api/blog/:id', getBlogPost)
   .put('/api/blog/:id', updateBlogPost)
