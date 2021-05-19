@@ -39,6 +39,8 @@ value: `localhost` OR  `production`
 local - `localhost:3000`<br>
 prod - `https://my-blog-api-darwin.herokuapp.com`
 
+HealhCheck - `/api/health`
+
 #### Blog Post Endpoints
 GET - `/api/post` &nbsp; - Get All Posts <br>
 GET - `/api/post/{{postId}}` <br>
@@ -64,7 +66,6 @@ DELETE - `/api/post/{{postId}}`
 #### Comment Endpoints
 GET - `/api/comment` &nbsp; - Get All Posts <br>
 GET - `/api/comment/{{commentId}}` <br>
-
 POST - `/api/comment` <br>
 ```json
 {
@@ -98,3 +99,11 @@ DELETE - `/api/comment/{{commentId}}` <br>
 Project includes a postman collection for faster testing
 
 Collection is equipped with prerequest scripts that should properly set most dynamic fields necessary for basic testing of API.
+
+Collection in `test/postman/` <br>
+Two environment files include also in `test/postman/`
+
+## TODO
+- [] Adding Testing Suite
+- [] Converting Project to TypeScript
+- [] Rethinking Persistance Layer, likely adding a database connection
