@@ -9,8 +9,7 @@ module.exports = {
 			return next(err);
 		}
 
-		var auth = new Buffer.from(authheader.split(' ')[1],
-			'base64').toString().split(':');
+		var auth = new Buffer.from(authheader.split(' ')[1], 'base64').toString().split(':');
 		var user = auth[0];
 		var pass = auth[1];
 

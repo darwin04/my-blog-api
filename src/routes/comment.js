@@ -1,20 +1,12 @@
 const localStorage = require("localStorage");
-const uuid = require('uuid');
-const moment = require('moment');
+const {  storeItem, getItem, removeItem, getAllItems } = require('../utils/storage');
+const {  setCommonCommentData } = require('../utils/helpers');
 
 module.exports = {
   createComment: async (req, res, next) => {
 		try {
-			const data = {
-				id: uuid.v4(),
-				postId: req.body.postId,
-				parentCommentId: req.body.parentCommentId,
-				author: req.body.autor,
-				content: req.body.content,
-				type: "comment",
-				dateTimeAdded: moment().format('YYYY-MM-DD hh:mm:ss'),
-			};
-			localStorage.setItem(data.id, JSON.stringify(data));
+			const data = setCommonCommentData(req, {}, false);
+			storeItem(data);
 			res.status(201).json(data);
 		} catch (e) {
 			next(e);
@@ -22,9 +14,9 @@ module.exports = {
 	},
 	getComment: async (req, res, next) => {
 		try {
-			const post = localStorage.getItem(req.params.id);
+			const post = getItem(req.params.id);
 			if (!post) {
-				const err = new Error('Blog Post not found');
+				const err = new Error('Comment not found');
 				err.status = 404;
 				throw err;
 			}
@@ -50,38 +42,21 @@ module.exports = {
 	},
 	getAllComments: async (req, res, next) => {
 		try {
-			const storageItems = { ...localStorage };
-			const items = [];
-			for(let storageItem in storageItems) {
-				const parsedItem = JSON.parse(storageItems[storageItem]);
-				if (parsedItem.type == "comment")
-					items.push(parsedItem);
-			}
-			res.json(items);
+			res.json(getAllItems({ ...localStorage }, "comment"));
 		} catch (e) {
 			next(e);
 		}
 	},
 	updateComment: async (req, res, next) => {
 		try {
-			const comment = localStorage.getItem(req.params.id);
+			const comment = getItem(req.params.id);
 			if (!comment) {
 				const err = new Error('Comment not found');
 				err.status = 404;
 				throw err;
 			}
-			const data = {
-				id: req.params.id,
-				postId: JSON.parse(comment).postId,
-				parentCommentId: JSON.parse(comment).parentCommentId,
-				author: req.body.autor,
-				content: req.body.content,
-				type: "comment",
-				dateTimeAdded: JSON.parse(comment).dateTimeAdded,
-				dateTimeUpdated: moment().format('YYYY-MM-DD hh:mm:ss')
-			};
-
-			localStorage.setItem(data.id, JSON.stringify(data));
+			const data = setCommonCommentData(req, JSON.parse(comment), true);
+			storeItem(data);
 			res.status(201).json(data);
 		} catch (e) {
 			next(e);
@@ -89,7 +64,7 @@ module.exports = {
 	},
 	deleteComment: async (req, res, next) => {
 		try {
-			localStorage.removeItem(req.params.id);
+			removeItem(req.params.id);
 			res.status(200).end();
 		} catch (e) {
 			next(e);

@@ -1,19 +1,12 @@
-const localStorage = require("localStorage");
-const uuid = require('uuid');
-const moment = require('moment');
+const {  storeItem, getItem, removeItem, getAllItems } = require('../utils/storage');
+const {  setCommonPostData } = require('../utils/helpers');
+const localStorage = require('localStorage');
 
 module.exports = {
 	createPost: async (req, res, next) => {
 		try {
-			const data = {
-				id: uuid.v4(),
-				title: req.body.title,
-				author: req.body.autor,
-				content: req.body.content,
-				type: "post",
-				dateTimeAdded: moment().format('YYYY-MM-DD hh:mm:ss')
-			};
-			localStorage.setItem(data.id, JSON.stringify(data));
+			const data = setCommonPostData(req, {}, false);
+			storeItem(data);
 			res.status(201).json(data);
 		} catch (e) {
 			next(e);
@@ -21,7 +14,7 @@ module.exports = {
 	},
 	getPost: async (req, res, next) => {
 		try {
-			const post = localStorage.getItem(req.params.id);
+			const post = getItem(req.params.id);
 			if (!post) {
 				const err = new Error(' Post not found');
 				err.status = 404;
@@ -35,37 +28,21 @@ module.exports = {
 	},
 	getAllPosts: async (req, res, next) => {
 		try {
-			const storageItems = { ...localStorage };
-			const items = [];
-			for(let storageItem in storageItems) {
-				const parsedItem = JSON.parse(storageItems[storageItem]);
-				if (parsedItem.type == "post")
-					items.push(parsedItem);
-			}
-			res.json(items);
+			res.json(getAllItems({ ...localStorage }, "post"));
 		} catch (e) {
 			next(e);
 		}
 	},
 	updatePost: async (req, res, next) => {
 		try {
-			const post = localStorage.getItem(req.params.id);
+			const post = getItem(req.params.id);
 			if (!post) {
 				const err = new Error(' Post not found');
 				err.status = 404;
 				throw err;
 			}
-			const data = {
-				id: req.params.id,
-				title: req.body.title,
-				author: req.body.autor,
-				content: req.body.content,
-				type: "post",
-				dateTimeAdded: JSON.parse(post).dateTimeAdded,
-				dateTimeUpdated: moment().format('YYYY-MM-DD hh:mm:ss')
-			};
-
-			localStorage.setItem(data.id, JSON.stringify(data));
+			const data = setCommonPostData(req, JSON.parse(post), true);
+			storeItem(data);
 			res.status(201).json(data);
 		} catch (e) {
 			next(e);
@@ -73,7 +50,7 @@ module.exports = {
 	},
 	deletePost: async (req, res, next) => {
 		try {
-			localStorage.removeItem(req.params.id);
+			removeItem(req.params.id);
 			res.status(200).end();
 		} catch (e) {
 			next(e);

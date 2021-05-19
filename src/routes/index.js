@@ -26,6 +26,4 @@ router
   .put('/api/comment/:id', updateComment)
   .delete('/api/comment/:id', deleteComment);
 
-// TODO: Add routes for:
-// getting all posts, getting all comments, getting replies for a comment
 module.exports = router;

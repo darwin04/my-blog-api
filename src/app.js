@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
 const app = express();
-const { authentication } = require('./authentication');
+const { authentication } = require('./utils/authentication');
 
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';

@@ -1,9 +1,6 @@
 # my-blog-api
 NodeJS REST API for Blog Posts and Comments Using [Express 4](http://expressjs.com/) and [Node.js 14](http://nodejs.org/).
 
-
-### TODO: Add more information about the app here
-
 ## Running Locally
 
 Make sure you have node installed.
@@ -32,3 +29,16 @@ For Local development create `.env` file at root of project and add the followin
 AUTH_USER_NAME=***replace with value***
 AUTH_PASSWORD=***replace with value***
 ```
+
+
+## Endpoints and Payload
+
+## Postman
+Project includes a postman collection for faster testing
+
+Collection is equipped with prerequest scripts that should properly set most dynamic fields necessary for basic testing of API.
+
+#### Environment Variables
+variable: `env`
+
+value: `localhost` OR  `production`
