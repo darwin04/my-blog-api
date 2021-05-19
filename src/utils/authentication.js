@@ -17,7 +17,7 @@ module.exports = {
 			// If Authorized user
 			next();
 		} else {
-			var err = new Error('You are not authenticated Bro!');
+			var err = new Error('You are not authenticated!');
 			res.setHeader('WWW-Authenticate', 'Basic');
 			err.status = 401;
 			return next(err);

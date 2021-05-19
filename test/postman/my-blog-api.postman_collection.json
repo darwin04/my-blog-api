@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "57a43f6c-5007-4d7a-8da8-a120630d3541",
-		"name": "Blog API",
+		"name": "My Blog API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -91,7 +91,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"My Blog Updat Example\",\n    \"author\": \"Darwin\",\n    \"content\": \"This is my updated blog post\"\n}",
+							"raw": "{\n    \"title\": \"My Blog Update Example\",\n    \"author\": \"Darwin\",\n    \"content\": \"This is my updated blog post\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
