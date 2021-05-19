@@ -1,4 +1,4 @@
-# my-blog-api
+# My-Blog-Api
 NodeJS REST API for Blog Posts and Comments Using [Express 4](http://expressjs.com/) and [Node.js 14](http://nodejs.org/).
 
 ## Running Locally
@@ -24,11 +24,12 @@ Health Check - `/api/health`
 ## Authentication
 App requires `Authorization` header for basic auth. You will need User and Password in order to hit any endpoint in the app.
 
-For Local development create `.env` file at root of project and add the following:
+**Important!** For Local development create `.env` file at root of project and add the following:
 ```sh
 AUTH_USER_NAME=***replace with value***
 AUTH_PASSWORD=***replace with value***
 ```
+Credentials will be provided separately
 
 #### Environment Variables
 variable: `env`<br>
