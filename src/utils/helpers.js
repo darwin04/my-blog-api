@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const moment = require('moment');
+const {  getItem } = require('../utils/storage');
 
 module.exports = {
   setCommonPostData: (req, post, isUpdate) => {
@@ -14,10 +15,19 @@ module.exports = {
 		};
 	},
   setCommonCommentData: (req, comment, isUpdate) => {
+		// Verify that reply is to a valid parent comment
+		const parentCommentId = isUpdate ? comment.parentCommentId : req.body.parentCommentId;
+
+		if (parentCommentId && !getItem(parentCommentId)) {
+				const err = new Error('Unable to Create Reply - Parent Comment Not Found');
+				err.status = 404;
+				throw err;
+		}
+
 		return {
 			id: isUpdate ? req.params.id : uuid.v4(),
 			postId: isUpdate ? comment.postId : req.body.postId,
-			parentCommentId: isUpdate ? comment.parentCommentId : req.body.parentCommentId,
+			parentCommentId: parentCommentId,
 			author: req.body.autor,
 			content: req.body.content,
 			type: "comment",

@@ -1,14 +1,36 @@
 const localStorage = require("localStorage");
 
+function removeItem(type, itemToRemove) {
+	if (!itemToRemove) {
+		const err = new Error('Item not found');
+		err.status = 404;
+		throw err;
+	}
+	
+	// Remove sincle Item from storage
+	const id = itemToRemove.id;
+	localStorage.removeItem(id);
+	const storageItems = { ...localStorage } ;
+
+	// Remove any potential children of the item removed
+	for(let item in storageItems) {
+		const parsedItem = JSON.parse(storageItems[item]);
+		// If post is deleted, then all comments associated with post thread should be removed
+		if (itemToRemove.type == type && parsedItem.postId == id) {
+			localStorage.removeItem(parsedItem.id);
+		} else if (itemToRemove.type == type && parsedItem.parentCommentId == id) {
+			// If comment is deleted, then all children comments should be removed
+			removeItem("comment", parsedItem);
+		}
+	}
+}
+
 module.exports = {
 	storeItem: (data) => {
 		localStorage.setItem(data.id, JSON.stringify(data));
 	},
 	getItem: (id) => {
 		return localStorage.getItem(id);
-	},
-	removeItem: (id) => {
-		localStorage.removeItem(id);
 	},
 	getAllItems: (storageItems, type) => {
 		const items = [];
@@ -18,5 +40,6 @@ module.exports = {
 				items.push(parsedItem);
 		}
 		return items;
-	}
+	},
+	removeItem
 }

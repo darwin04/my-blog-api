@@ -50,7 +50,7 @@ module.exports = {
 	},
 	deletePost: async (req, res, next) => {
 		try {
-			removeItem(req.params.id);
+			removeItem("post", JSON.parse(localStorage.getItem(req.params.id)));
 			res.status(200).end();
 		} catch (e) {
 			next(e);
