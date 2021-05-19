@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { getBlogPost, createBlogPost, updateBlogPost, deleteBlogPost } = require('./blog');
-const { createComment, createReply, getComment, updateComment, deleteComment  } = require('./comment');
+const { getPost, getAllPosts, createPost, updatePost, deletePost } = require('./blog');
+const { createComment, getAllComments, getComment, updateComment, deleteComment, getThread  } = require('./comment');
 
 router
   .get('/', (req, res, next) => {
@@ -12,14 +12,16 @@ router
   });
 
 router
-  .post('/api/blog', createBlogPost)
-  .get('/api/blog/:id', getBlogPost)
-  .put('/api/blog/:id', updateBlogPost)
-  .delete('/api/blog/:id', deleteBlogPost);
+  .post('/api/post', createPost)
+  .get('/api/post', getAllPosts)
+  .get('/api/post/:id', getPost)
+  .put('/api/post/:id', updatePost)
+  .delete('/api/post/:id', deletePost);
 
 router
   .post('/api/comment', createComment)
-  .post('/api/comment/:id', createReply)
+  .get('/api/comment', getAllComments)
+  .get('/api/comment/thread/:threadId', getThread)
   .get('/api/comment/:id', getComment)
   .put('/api/comment/:id', updateComment)
   .delete('/api/comment/:id', deleteComment);

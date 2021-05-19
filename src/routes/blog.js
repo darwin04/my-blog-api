@@ -1,28 +1,29 @@
 const localStorage = require("localStorage");
-var uuid = require('uuid');
-
+const uuid = require('uuid');
+const moment = require('moment');
 
 module.exports = {
-	createBlogPost: async (req, res, next) => {
+	createPost: async (req, res, next) => {
 		try {
-			const newPost = {
-				id: uuid.v1(), // Time Based
+			const data = {
+				id: uuid.v4(),
 				title: req.body.title,
 				author: req.body.autor,
 				content: req.body.content,
-				//TODO: Add TimeStamp and maybe other items
+				type: "post",
+				dateTimeAdded: moment().format('YYYY-MM-DD hh:mm:ss')
 			};
-			localStorage.setItem(newPost.id, JSON.stringify(newPost));
-			res.status(201).json(newPost);
+			localStorage.setItem(data.id, JSON.stringify(data));
+			res.status(201).json(data);
 		} catch (e) {
 			next(e);
 		}
 	},
-	getBlogPost: async (req, res, next) => {
+	getPost: async (req, res, next) => {
 		try {
 			const post = localStorage.getItem(req.params.id);
 			if (!post) {
-				const err = new Error('Blog Post not found');
+				const err = new Error(' Post not found');
 				err.status = 404;
 				throw err;
 			}
@@ -32,11 +33,25 @@ module.exports = {
 			next(e);
 		}
 	},
-	updateBlogPost: async (req, res, next) => {
+	getAllPosts: async (req, res, next) => {
+		try {
+			const storageItems = { ...localStorage };
+			const items = [];
+			for(let storageItem in storageItems) {
+				const parsedItem = JSON.parse(storageItems[storageItem]);
+				if (parsedItem.type == "post")
+					items.push(parsedItem);
+			}
+			res.json(items);
+		} catch (e) {
+			next(e);
+		}
+	},
+	updatePost: async (req, res, next) => {
 		try {
 			const post = localStorage.getItem(req.params.id);
 			if (!post) {
-				const err = new Error('Blog Post not found');
+				const err = new Error(' Post not found');
 				err.status = 404;
 				throw err;
 			}
@@ -45,6 +60,9 @@ module.exports = {
 				title: req.body.title,
 				author: req.body.autor,
 				content: req.body.content,
+				type: "post",
+				dateTimeAdded: JSON.parse(post).dateTimeAdded,
+				dateTimeUpdated: moment().format('YYYY-MM-DD hh:mm:ss')
 			};
 
 			localStorage.setItem(data.id, JSON.stringify(data));
@@ -53,7 +71,7 @@ module.exports = {
 			next(e);
 		}
 	},
-	deleteBlogPost: async (req, res, next) => {
+	deletePost: async (req, res, next) => {
 		try {
 			localStorage.removeItem(req.params.id);
 			res.status(200).end();
