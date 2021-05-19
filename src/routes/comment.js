@@ -26,30 +26,6 @@ module.exports = {
 			next(e);
 		}
 	},
-	getThread: async (req, res, next) => {
-		try {
-			// Validate that a thread exists
-			const parentPost = getItem(req.params.threadId);
-			if (!parentPost) {
-				const err = new Error('Thread not found');
-				err.status = 404;
-				throw err;
-			}
-			const storageItems = { ...localStorage };
-			const items = [];
-
-			// Add the parent post first
-			items.push(JSON.parse(parentPost));
-			for(let storageItem in storageItems) {
-				const parsedItem = JSON.parse(storageItems[storageItem]);
-				if (parsedItem.postId == req.params.threadId && parsedItem.type == "comment")
-					items.push(parsedItem);
-			}
-			res.json(items);
-		} catch (e) {
-			next(e);
-		}
-	},
 	getAllComments: async (req, res, next) => {
 		try {
 			res.json(getAllItems({ ...localStorage }, "comment"));

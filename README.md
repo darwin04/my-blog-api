@@ -30,15 +30,71 @@ AUTH_USER_NAME=***replace with value***
 AUTH_PASSWORD=***replace with value***
 ```
 
+#### Environment Variables
+variable: `env`<br>
+value: `localhost` OR  `production`
 
 ## Endpoints and Payload
+#### Base Url
+local - `localhost:3000`<br>
+prod - `https://my-blog-api-darwin.herokuapp.com`
+
+#### Blog Post Endpoints
+GET - `/api/post` &nbsp; - Get All Posts <br>
+GET - `/api/post/{{postId}}` <br>
+GET - `/api/post/thread/{{postId}}`&nbsp; - Get post and associated comments <br>
+POST - `/api/post`<br>
+```json
+{
+    "title": "My Blog Example",
+    "author": "Darwin",
+    "content": "This is my blog post"
+}
+```
+PUT - `/api/post/{{postId}}`<br>
+```json
+{
+    "title": "My Blog Update Example",
+    "author": "Darwin",
+    "content": "This is my updated blog post"
+}
+```
+DELETE - `/api/post/{{postId}}`
+
+#### Comment Endpoints
+GET - `/api/comment` &nbsp; - Get All Posts <br>
+GET - `/api/comment/{{commentId}}` <br>
+
+POST - `/api/comment` <br>
+```json
+{
+    "title": "My Comment Example",
+    "author": "Darwin",
+    "content": "This is my first comment",
+    "postId": "{{postId}}"
+}
+```
+POST - `/api/comment` - For Comment Replies <br>
+```json
+{
+    "title": "My Comment Reply Example",
+    "author": "Darwin",
+    "content": "This is my first reply",
+    "postId": "{{postId}}",
+    "parentCommentId": "{{commentId}}"
+}
+```
+PUT - `/api/comment/{{commentId}}` <br>
+```json
+{
+    "title": "My Comment Update Example",
+    "author": "Darwin",
+    "content": "This is my updated comment"
+}
+```
+DELETE - `/api/comment/{{commentId}}` <br>
 
 ## Postman
 Project includes a postman collection for faster testing
 
 Collection is equipped with prerequest scripts that should properly set most dynamic fields necessary for basic testing of API.
-
-#### Environment Variables
-variable: `env`
-
-value: `localhost` OR  `production`
