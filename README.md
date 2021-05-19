@@ -104,6 +104,6 @@ Collection in `test/postman/` <br>
 Two environment files include also in `test/postman/`
 
 ## TODO
-- [] Adding Testing Suite
-- [] Converting Project to TypeScript
-- [] Rethinking Persistance Layer, likely adding a database connection
+- [ ] Adding Testing Suite
+- [ ] Converting Project to TypeScript
+- [ ] Rethinking Persistance Layer, likely adding a database connection
