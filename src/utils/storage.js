@@ -1,5 +1,14 @@
 const localStorage = require("localStorage");
 
+
+/**
+	 * Function helps remove items from local storage, along with any associated comments/replies
+	 * The recursive portion is due to the fact that comments can have child comments. Without the
+	 * recursion deleting a comment/post will only delete 1 level deep in thread.
+	 * @param {string} type 
+	 * @param {object} itemToRemove 
+	 * @returns 
+	 */
 function removeItem(type, itemToRemove) {
 	if (!itemToRemove) {
 		const err = new Error('Item not found');
@@ -7,7 +16,7 @@ function removeItem(type, itemToRemove) {
 		throw err;
 	}
 	
-	// Remove sincle Item from storage
+	// Remove single Item from storage
 	const id = itemToRemove.id;
 	localStorage.removeItem(id);
 	const storageItems = { ...localStorage } ;

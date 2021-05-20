@@ -3,6 +3,15 @@ const moment = require('moment');
 const {  getItem } = require('../utils/storage');
 
 module.exports = {
+	/**
+	 * Body of a post is similar for an initial post compared to an update. This function
+	 * sets all the required data from the request body or the existing post information based
+	 * on the isUpdate flag
+	 * @param {object} req 
+	 * @param {object} post 
+	 * @param {boolean} isUpdate 
+	 * @returns {object}
+	 */
   setCommonPostData: (req, post, isUpdate) => {
 		return {
 			id: isUpdate ? req.params.id : uuid.v4(),
@@ -14,6 +23,15 @@ module.exports = {
 			dateTimeUpdated: isUpdate ? moment().format('YYYY-MM-DD hh:mm:ss') : ''
 		};
 	},
+	/**
+	 * Body of a comment is similar for an initial comment compared to an update. This function
+	 * sets all the required data from the request body or the existing comment information based
+	 * on the isUpdate flag
+	 * @param {object} req 
+	 * @param {object} comment 
+	 * @param {boolean} isUpdate 
+	 * @returns {object}
+	 */
   setCommonCommentData: (req, comment, isUpdate) => {
 		// Verify that reply is to a valid parent comment
 		const parentCommentId = isUpdate ? comment.parentCommentId : req.body.parentCommentId;
