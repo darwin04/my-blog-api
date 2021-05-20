@@ -31,10 +31,6 @@ AUTH_PASSWORD=***replace with value***
 ```
 Credentials will be provided separately
 
-#### Environment Variables
-variable: `env`<br>
-value: `localhost` OR  `production`
-
 ## Endpoints and Payload
 #### Base Url
 local - `localhost:3000`<br>
@@ -104,6 +100,11 @@ Collection is equipped with prerequest scripts that should properly set most dyn
 Collection in `test/postman/` <br>
 Two environment files include also in `test/postman/`
 
+#### Environment Variables
+variable: `env`<br>
+value: `localhost` OR  `production`
+
+#### Prerequest Scripts
 The Collection includes a prerequest script that sets the following two things on every request:
 * Authorization Header 
 * Base URL Variable (Though this really only needs to be set once, script automates it based on environment variable)
