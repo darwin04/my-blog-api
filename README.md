@@ -104,6 +104,10 @@ Collection is equipped with prerequest scripts that should properly set most dyn
 Collection in `test/postman/` <br>
 Two environment files include also in `test/postman/`
 
+The Collection includes a prerequest script that sets the following two things on every request:
+* Authorization Header 
+* Base URL Variable (Though this really only needs to be set once, script automates it based on environment variable)
+
 ## TODO
 - [ ] Adding Testing Suite
 - [ ] Converting Project to TypeScript
